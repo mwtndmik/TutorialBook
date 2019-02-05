@@ -1,0 +1,108 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/ALU.hdl
+
+/**
+ * The ALU (Arithmetic Logic Unit).
+ * Computes one of the following functions:
+ * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs,
+ * according to 6 input bits denoted zx,nx,zy,ny,f,no.
+ * In addition, the ALU computes two 1-bit outputs:
+ * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
+ * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
+ */
+
+// Implementation: the ALU logic manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) set x = 0        // 16-bit constant
+// if (nx == 1) set x = !x       // bitwise not
+// if (zy == 1) set y = 0        // 16-bit constant
+// if (ny == 1) set y = !y       // bitwise not
+// if (f == 1)  set out = x + y  // integer 2's complement addition
+// if (f == 0)  set out = x & y  // bitwise and
+// if (no == 1) set out = !out   // bitwise not
+// if (out == 0) set zr = 1
+// if (out < 0) set ng = 1
+
+CHIP ALU {
+    IN
+        x[16], y[16],  // 16-bit inputs
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+   // Put you code here:
+   //zx
+   to016(a=zx, b[0]=x[0], b[1]=x[1],b[2]=x[2], b[3]=x[3], b[4]=x[4], b[5]=x[5], b[6]=x[6], b[7]=x[7], b[8]=x[8], b[9]=x[9], b[10]=x[10],
+    b[11]=x[11], b[12]=x[12], b[13]=x[13], b[14]=x[14], b[15]=x[15], out[0]=x00, out[1]=x01, out[2]=x02, out[3]=x03, out[4]=x04, out[5]=x05,
+    out[6]=x06, out[7]=x07, out[8]=x08, out[9]=x09, out[10]=x010, out[11]=x011, out[12]=x012, out[13]=x013, out[14]=x014, out[15]=x015);
+
+  ///nx
+  neg(a=nx, b[0]=x00, b[1]=x01, b[2]=x02, b[3]=x03, b[4]=x04, b[5]=x05, b[6]=x06, b[7]=x07, b[8]=x08, b[9]=x09, b[10]=x010, b[11]=x011,
+   b[12]=x012, b[13]=x013, b[14]=x014, b[15]=x015, out[0]=x10, out[1]=x11, out[2]=x12, out[3]=x13, out[4]=x14, out[5]=x15, out[6]=x16,
+   out[7]=x17, out[8]=x18, out[9]=x19, out[10]=x110, out[11]=x111, out[12]=x112, out[13]=x113, out[14]=x114, out[15]=x115);
+
+  //zy
+  to016(a=zy, b[0]=y[0], b[1]=y[1],b[2]=y[2], b[3]=y[3], b[4]=y[4], b[5]=y[5], b[6]=y[6], b[7]=y[7], b[8]=y[8], b[9]=y[9], b[10]=y[10],
+   b[11]=y[11], b[12]=y[12], b[13]=y[13], b[14]=y[14], b[15]=y[15], out[0]=y00, out[1]=y01, out[2]=y02, out[3]=y03, out[4]=y04, out[5]=y05,
+   out[6]=y06, out[7]=y07, out[8]=y08, out[9]=y09, out[10]=y010, out[11]=y011, out[12]=y012, out[13]=y013, out[14]=y014, out[15]=y015);
+
+  //ny
+  neg(a=ny, b[0]=y00, b[1]=y01, b[2]=y02, b[3]=y03, b[4]=y04, b[5]=y05, b[6]=y06, b[7]=y07, b[8]=y08, b[9]=y09, b[10]=y010, b[11]=y011,
+   b[12]=y012, b[13]=y013, b[14]=y014, b[15]=y015, out[0]=y10, out[1]=y11, out[2]=y12, out[3]=y13, out[4]=y14, out[5]=y15, out[6]=y16,
+   out[7]=y17, out[8]=y18, out[9]=y19, out[10]=y110, out[11]=y111, out[12]=y112, out[13]=y113, out[14]=y114, out[15]=y115);
+
+  //f
+  Add16(a[0]=x10, a[1]=x11, a[2]=x12, a[3]=x13, a[4]=x14, a[5]=x15, a[6]=x16, a[7]=x17, a[8]=x18, a[9]=x19, a[10]=x110, a[11]=x111,
+   a[12]=x112, a[13]=x113, a[14]=x114, a[15]=x115, b[0]=y10, b[1]=y11, b[2]=y12, b[3]=y13, b[4]=y14, b[5]=y15, b[6]=y16,
+   b[7]=y17, b[8]=y18, b[9]=y19, b[10]=y110, b[11]=y111, b[12]=y112, b[13]=y113, b[14]=y114, b[15]=y115,
+   out[0]=out00, out[1]=out01, out[2]=out02, out[3]=out03, out[4]=out04, out[5]=out05,
+   out[6]=out06, out[7]=out07, out[8]=out08, out[9]=out09, out[10]=out010, out[11]=out011, out[12]=out012,
+   out[13]=out013, out[14]=out014, out[15]=out015);
+
+  And16(a[0]=x10, a[1]=x11, a[2]=x12, a[3]=x13, a[4]=x14, a[5]=x15, a[6]=x16, a[7]=x17, a[8]=x18, a[9]=x19, a[10]=x110, a[11]=x111,
+   a[12]=x112, a[13]=x113, a[14]=x114, a[15]=x115, b[0]=y10, b[1]=y11, b[2]=y12, b[3]=y13, b[4]=y14, b[5]=y15, b[6]=y16,
+   b[7]=y17, b[8]=y18, b[9]=y19, b[10]=y110, b[11]=y111, b[12]=y112, b[13]=y113, b[14]=y114, b[15]=y115,
+   out[0]=out10, out[1]=out11, out[2]=out12, out[3]=out13, out[4]=out14, out[5]=out15, out[6]=out16,out[7]=out17, out[8]=out18,
+   out[9]=out19, out[10]=out110, out[11]=out111, out[12]=out112, out[13]=out113,out[14]=out114, out[15]=out115);
+
+   Mux16(sel=f, a[0]=out10, a[1]=out11, a[2]=out12, a[3]=out13, a[4]=out14,
+    a[5]=out15, a[6]=out16, a[7]=out17, a[8]=out18, a[9]=out19, a[10]=out110, a[11]=out111, a[12]=out112, a[13]=out113, a[14]=out114, a[15]=out115,
+    b[0]=out00, b[1]=out01, b[2]=out02, b[3]=out03, b[4]=out04, b[5]=out05, b[6]=out06, b[7]=out07, b[8]=out08, b[9]=out09, b[10]=out010,
+    b[11]=out011, b[12]=out012, b[13]=out013, b[14]=out014, b[15]=out015,
+    out[0]=out20, out[1]=out21, out[2]=out22, out[3]=out23, out[4]=out24, out[5]=out25, out[6]=out26, out[7]=out27, out[8]=out28, out[9]=out29,
+    out[10]=out210, out[11]=out211, out[12]=out212, out[13]=out213, out[14]=out214, out[15]=out215);
+
+
+  //no
+  neg(a=no, b[0]=out20, b[1]=out21, b[2]=out22, b[3]=out23, b[4]=out24, b[5]=out25,b[6]=out26, b[7]=out27, b[8]=out28, b[9]=out29, b[10]=out210,
+   b[11]=out211, b[12]=out212, b[13]=out213, b[14]=out214, b[15]=out215, out[0]=out30, out[1]=out31, out[2]=out32, out[3]=out33, out[4]=out34,
+   out[5]=out35, out[6]=out36, out[7]=out37, out[8]=out38, out[9]=out39, out[10]=out310, out[11]=out311, out[12]=out312,
+   out[13]=out313, out[14]=out314, out[15]=out315);
+
+
+  //zr
+  Or8Way(in[0]=out30, in[1]=out31, in[2]=out32, in[3]=out33, in[4]=out34, in[5]=out35, in[6]=out36, in[7]=out37,  out=zr1);
+  Or8Way(in[0]=out38, in[1]=out39,in[2]=out310, in[3]=out311, in[4]=out312, in[5]=out313, in[6]=out314, in[7]=out315, out=zr2);
+  Or(a=zr1, b=zr2, out=zr3);
+  Not(in=zr3, out=zr);
+
+
+  //ng
+  id(in=out315, out=ng);
+
+  id(in=out30, out=out[0]); id(in=out31, out=out[1]); id(in=out32, out=out[2]); id(in=out33, out=out[3]); id(in=out34, out=out[4]); id(in=out35, out=out[5]);
+  id(in=out36, out=out[6]); id(in=out37, out=out[7]); id(in=out38, out=out[8]); id(in=out39, out=out[9]); id(in=out310, out=out[10]); id(in=out311, out=out[11]);
+  id(in=out312, out=out[12]); id(in=out313, out=out[13]); id(in=out314, out=out[14]); id(in=out315, out=out[15]);
+}

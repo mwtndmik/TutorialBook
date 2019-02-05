@@ -1,0 +1,9 @@
+CHIP KEYIN{
+  IN in[3];
+  OUT out;
+
+  PARTS:
+  And(a=in[2], b=in[1], out=c01);
+  Not(in=in[0], out=c02);
+  And(a=c01, b=c02, out=out);
+}

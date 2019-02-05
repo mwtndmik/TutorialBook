@@ -1,0 +1,10 @@
+// if a=1 then out=0, else out=b
+
+CHIP to0{
+  IN a, b;
+  OUT out;
+
+  PARTS:
+  Not(in=a, out=c0);
+  And(a=c0, b=b, out=out);
+}

@@ -1,0 +1,24 @@
+//16bit of to0
+
+CHIP to016{
+  IN a, b[16];
+  OUT out[16];
+
+  PARTS:
+  to0(a=a, b=b[0], out=out[0]);
+  to0(a=a, b=b[1], out=out[1]);
+  to0(a=a, b=b[2], out=out[2]);
+  to0(a=a, b=b[3], out=out[3]);
+  to0(a=a, b=b[4], out=out[4]);
+  to0(a=a, b=b[5], out=out[5]);
+  to0(a=a, b=b[6], out=out[6]);
+  to0(a=a, b=b[7], out=out[7]);
+  to0(a=a, b=b[8], out=out[8]);
+  to0(a=a, b=b[9], out=out[9]);
+  to0(a=a, b=b[10], out=out[10]);
+  to0(a=a, b=b[11], out=out[11]);
+  to0(a=a, b=b[12], out=out[12]);
+  to0(a=a, b=b[13], out=out[13]);
+  to0(a=a, b=b[14], out=out[14]);
+  to0(a=a, b=b[15], out=out[15]);
+}

@@ -1,0 +1,68 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux4Way16.hdl
+
+/**
+ * 4-way 16-bit multiplexor:
+ * out = a if sel == 00
+ *       b if sel == 01
+ *       c if sel == 10
+ *       d if sel == 11
+ */
+
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Mux16(a[0]=a[0], b[0]=b[0], sel=sel[0], out[0]=c000);
+    Mux16(a[0]=c[0], b[0]=d[0], sel=sel[0], out[0]=c010);
+    Mux16(a[0]=c000, b[0]=c010, sel=sel[1], out[0]=out[0]);
+    Mux16(a[1]=a[1], b[1]=b[1], sel=sel[0], out[1]=c001);
+    Mux16(a[1]=c[1], b[1]=d[1], sel=sel[0], out[1]=c011);
+    Mux16(a[1]=c001, b[1]=c011, sel=sel[1], out[1]=out[1]);
+    Mux16(a[2]=a[2], b[2]=b[2], sel=sel[0], out[2]=c002);
+    Mux16(a[2]=c[2], b[2]=d[2], sel=sel[0], out[2]=c012);
+    Mux16(a[2]=c002, b[2]=c012, sel=sel[1], out[2]=out[2]);
+    Mux16(a[3]=a[3], b[3]=b[3], sel=sel[0], out[3]=c003);
+    Mux16(a[3]=c[3], b[3]=d[3], sel=sel[0], out[3]=c013);
+    Mux16(a[3]=c003, b[3]=c013, sel=sel[1], out[3]=out[3]);
+    Mux16(a[4]=a[4], b[4]=b[4], sel=sel[0], out[4]=c004);
+    Mux16(a[4]=c[4], b[4]=d[4], sel=sel[0], out[4]=c014);
+    Mux16(a[4]=c004, b[4]=c014, sel=sel[1], out[4]=out[4]);
+    Mux16(a[5]=a[5], b[5]=b[5], sel=sel[0], out[5]=c005);
+    Mux16(a[5]=c[5], b[5]=d[5], sel=sel[0], out[5]=c015);
+    Mux16(a[5]=c005, b[5]=c015, sel=sel[1], out[5]=out[5]);
+    Mux16(a[6]=a[6], b[6]=b[6], sel=sel[0], out[6]=c006);
+    Mux16(a[6]=c[6], b[6]=d[6], sel=sel[0], out[6]=c016);
+    Mux16(a[6]=c006, b[6]=c016, sel=sel[1], out[6]=out[6]);
+    Mux16(a[7]=a[7], b[7]=b[7], sel=sel[0], out[7]=c007);
+    Mux16(a[7]=c[7], b[7]=d[7], sel=sel[0], out[7]=c017);
+    Mux16(a[7]=c007, b[7]=c017, sel=sel[1], out[7]=out[7]);
+    Mux16(a[8]=a[8], b[8]=b[8], sel=sel[0], out[8]=c008);
+    Mux16(a[8]=c[8], b[8]=d[8], sel=sel[0], out[8]=c018);
+    Mux16(a[8]=c008, b[8]=c018, sel=sel[1], out[8]=out[8]);
+    Mux16(a[9]=a[9], b[9]=b[9], sel=sel[0], out[9]=c009);
+    Mux16(a[9]=c[9], b[9]=d[9], sel=sel[0], out[9]=c019);
+    Mux16(a[9]=c009, b[9]=c019, sel=sel[1], out[9]=out[9]);
+    Mux16(a[10]=a[10], b[10]=b[10], sel=sel[0], out[10]=c0010);
+    Mux16(a[10]=c[10], b[10]=d[10], sel=sel[0], out[10]=c0110);
+    Mux16(a[10]=c0010, b[10]=c0110, sel=sel[1], out[10]=out[10]);
+    Mux16(a[11]=a[11], b[11]=b[11], sel=sel[0], out[11]=c0011);
+    Mux16(a[11]=c[11], b[11]=d[11], sel=sel[0], out[11]=c0111);
+    Mux16(a[11]=c0011, b[11]=c0111, sel=sel[1], out[11]=out[11]);
+    Mux16(a[12]=a[12], b[12]=b[12], sel=sel[0], out[12]=c0012);
+    Mux16(a[12]=c[12], b[12]=d[12], sel=sel[0], out[12]=c0112);
+    Mux16(a[12]=c0012, b[12]=c0112, sel=sel[1], out[12]=out[12]);
+    Mux16(a[13]=a[13], b[13]=b[13], sel=sel[0], out[13]=c0013);
+    Mux16(a[13]=c[13], b[13]=d[13], sel=sel[0], out[13]=c0113);
+    Mux16(a[13]=c0013, b[13]=c0113, sel=sel[1], out[13]=out[13]);
+    Mux16(a[14]=a[14], b[14]=b[14], sel=sel[0], out[14]=c0014);
+    Mux16(a[14]=c[14], b[14]=d[14], sel=sel[0], out[14]=c0114);
+    Mux16(a[14]=c0014, b[14]=c0114, sel=sel[1], out[14]=out[14]);
+    Mux16(a[15]=a[15], b[15]=b[15], sel=sel[0], out[15]=c0015);
+    Mux16(a[15]=c[15], b[15]=d[15], sel=sel[0], out[15]=c0115);
+    Mux16(a[15]=c0015, b[15]=c0115, sel=sel[1], out[15]=out[15]);
+}

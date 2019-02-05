@@ -1,0 +1,11 @@
+//identity
+
+CHIP id {
+    IN in;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    Not(in=in, out=out1);
+    Not(in=out1, out=out);
+}
